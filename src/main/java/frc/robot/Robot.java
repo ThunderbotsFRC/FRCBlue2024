@@ -67,7 +67,7 @@ public class Robot extends TimedRobot {
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
-      driveSubsystem.arcadeDrive(xboxController.getLeftY(), xboxController.getRightX());
+      //driveSubsystem.arcadeDrive(xboxController.getLeftY(), xboxController.getRightX());
       m_autonomousCommand.schedule();
     }
   }
@@ -89,7 +89,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    driveSubsystem.arcadeDrive(xboxController.getLeftY(), xboxController.getRightX());
+  }
 
   @Override
   public void testInit() {
