@@ -90,7 +90,12 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    driveSubsystem.arcadeDrive(xboxController.getLeftY(), xboxController.getRightX());
+    double turn = xboxController.getRightX();
+    if (turn < 0.1 && turn > -0.1){
+      turn = 0;
+    }
+    turn = turn * -0.7;
+    driveSubsystem.arcadeDrive(xboxController.getLeftY(), turn);
   }
 
   @Override
