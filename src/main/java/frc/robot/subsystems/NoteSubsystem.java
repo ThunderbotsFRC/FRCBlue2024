@@ -5,11 +5,13 @@ import edu.wpi.first.wpilibj.motorcontrol.Spark;
 
 import static frc.robot.Constants.*;
 
-public class IntakeSubsystem extends SubsystemBase {
+public class NoteSubsystem extends SubsystemBase {
   private Spark IntakeMotor1 = new Spark(IntakeMotor1Port);
   private Spark IntakeMotor2 = new Spark(IntakeMotor2Port);
+  private Spark FireMotor1   = new Spark(FireMotor1Port);
+  private Spark FireMotor2   = new Spark(FireMotor2Port);
 
-  public IntakeSubsystem() {
+  public NoteSubsystem() {
 		IntakeMotor1.addFollower(IntakeMotor2);
     IntakeMotor2.setInverted(true);
 	}

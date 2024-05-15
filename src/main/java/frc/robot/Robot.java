@@ -94,7 +94,7 @@ public class Robot extends TimedRobot {
     if (turn < 0.1 && turn > -0.1){
       turn = 0;
     }
-    turn = turn * -0.7;
+    turn *= -0.7;
     driveSubsystem.arcadeDrive(xboxController.getLeftY(), turn);
   }
 
