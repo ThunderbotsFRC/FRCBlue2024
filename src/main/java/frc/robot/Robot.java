@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.NoteSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -21,6 +22,7 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
   private DriveSubsystem driveSubsystem;
+  private NoteSubsystem noteSubsystem;
 
   private XboxController xboxController;
 
@@ -34,6 +36,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     driveSubsystem = new DriveSubsystem();
+    noteSubsystem = new NoteSubsystem();
     xboxController = new XboxController(0);
   }
 
@@ -96,6 +99,23 @@ public class Robot extends TimedRobot {
     }
     turn *= -0.7;
     driveSubsystem.arcadeDrive(xboxController.getLeftY(), turn);
+    if (!noteSubsystem.rTriggerDown && xboxController.getRightTriggerAxis() > 0.5) {
+      noteSubsystem.rTriggerDown = true;
+      noteSubsystem.rTriggerTime = System.currentTimeMillis();
+    } else if (noteSubsystem.rTriggerDown && xboxController.getRightTriggerAxis() < 0.5) {
+      noteSubsystem.rTriggerDown = false;
+    }
+    if (xboxController.getLeftTriggerAxis() > 0.5) {
+      noteSubsystem.setIntakeSpeed(0.3);
+    } else if (xboxController.getLeftBumper()) {
+      noteSubsystem.setIntakeSpeed(-0.6);
+    }
+    if (xboxController.getRightTriggerAxis() > 0.5) {
+      noteSubsystem.setFireMotor(1);
+    } else if (xboxController.getRightBumper()) {
+      noteSubsystem.setIntakeSpeed(1);
+      noteSubsystem.setFireMotor(1);
+    }
   }
 
   @Override
