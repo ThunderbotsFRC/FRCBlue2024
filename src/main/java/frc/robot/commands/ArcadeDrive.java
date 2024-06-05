@@ -32,12 +32,18 @@ public class ArcadeDrive extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double turn = cont.getRightX();
-    if (turn < 0.1 && turn > -0.1){
+    double speed = -cont.getLeftY();
+    double turn = -cont.getRightX();
+    if (turn < 0.2 && turn > -0.2){
       turn = 0;
     }
-    turn *= -0.7;
-    subsystem.arcadeDrive(cont.getLeftY(), turn);
+    if (speed > 0.1) {
+      turn += (0.2 * (speed*2));
+    } else if (speed < -0.1) {
+      turn -= (0.2 * (speed*2));
+    }
+    turn *= 0.7;
+    subsystem.arcadeDrive(speed, turn);
   }
 
   // Called once the command ends or is interrupted.
