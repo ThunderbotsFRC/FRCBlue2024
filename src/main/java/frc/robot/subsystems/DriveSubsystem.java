@@ -22,11 +22,11 @@ public class DriveSubsystem extends SubsystemBase {
 	private DifferentialDrive DiffDrive;
 
   /**
-   * Example command factory method.
-   *
-   * @return nothing
-   */
-	
+   * Drives the motors using ArcadeDrive.
+   * Dont change this.
+   * @param xSpeed Speed to drive (-1.0 to 1.0)
+   * @param zRotation How fast to rotate and which direction (-1.0 to 1.0)
+   */	
   public void arcadeDrive(double xSpeed, double zRotation) {
 		DiffDrive.arcadeDrive(xSpeed, zRotation);
   }

@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.ArcadeDrive;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.NoteSubsystem;
 
@@ -26,6 +27,8 @@ public class Robot extends TimedRobot {
 
   private XboxController xboxController;
 
+  private ArcadeDrive arcadeDrive;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -38,6 +41,7 @@ public class Robot extends TimedRobot {
     driveSubsystem = new DriveSubsystem();
     noteSubsystem = new NoteSubsystem();
     xboxController = new XboxController(0);
+    arcadeDrive = new ArcadeDrive(driveSubsystem, xboxController);
   }
 
   /**
@@ -67,7 +71,6 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       //driveSubsystem.arcadeDrive(xboxController.getLeftY(), xboxController.getRightX());
@@ -85,6 +88,7 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    driveSubsystem.setDefaultCommand(arcadeDrive);
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -93,12 +97,15 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    double turn = xboxController.getRightX();
-    if (turn < 0.1 && turn > -0.1){
-      turn = 0;
-    }
-    turn *= -0.7;
-    driveSubsystem.arcadeDrive(xboxController.getLeftY(), turn);
+    /*
+    // Use this if the default command thingy dont work !!!!
+    // A split-stick arcade command, with forward/backward controlled by the left
+    // hand, and turning controlled by the right.
+    new RunCommand(() -> m_robotDrive.arcadeDrive(
+        -driverController.getLeftY(),
+        driverController.getRightX()),
+        m_robotDrive)
+    */
     if (!noteSubsystem.rTriggerDown && xboxController.getRightTriggerAxis() > 0.5) {
       noteSubsystem.rTriggerDown = true;
       noteSubsystem.rTriggerTime = System.currentTimeMillis();
